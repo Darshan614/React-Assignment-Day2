@@ -1,21 +1,28 @@
 import React from 'react';
 
-function Answer(){
+function Answer(props){
+  const answerhandler = (event) => {
+    console.log(event.target.value);
+    props.checkAnswer(event.target.value,props.correctAnswer)
+  } 
   return (
+    
     <div>
       Given Options are:
       <div>Option A: {props.optiona}</div>
-      <div>Option B: {props.optiona}</div>
-      <div>Option C: {props.optiona}</div>
-      <div>Option D: {props.optiona}</div>
+      <div>Option B: {props.optionb}</div>
+      <div>Option C: {props.optionc}</div>
+      <div>Option D: {props.optiond}</div>
       <label>Select the correct answer:</label>
-      <select>
-        <option value="Option A">Option A</option>
-        <option value="Option B">Option B</option>
-        <option value="Option C">Option C</option>
-        <option value="Option D">Option D</option>
-        </select>
-      <selec
+      <select onChange={answerhandler}>
+      <option value={null}></option>
+        <option value={props.optiona}>Option A</option>
+        <option value={props.optionb}>Option B</option>
+        <option value={props.optionc}>Option C</option>
+        <option value={props.optiond}>Option D</option>
+      </select>
       </div>
   )
-}
+};
+
+export default Answer;
