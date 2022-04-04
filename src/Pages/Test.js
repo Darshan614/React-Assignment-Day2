@@ -29,6 +29,15 @@ const testQuestions = [
 ];
 
 function Test() {
+  const [answersheet, setanswersheet] = useState({
+    Q1: 'e',
+    Q2: 'e',
+    Q3: 'e',
+    Q4: 'e',
+    Q5: 'e',
+    Q6: 'e',
+    Q7: 'e',
+  });
   const [score, setscore] = useState(0);
   const [time, settime] = useState(1 * 60);
   const [showtimer, setshowtimer] = useState(true);
@@ -47,14 +56,16 @@ function Test() {
     };
   }, [time]);
 
-  const checkAnswer = (answer, correctAnswer) => {
-    console.log('insca', answer, correctAnswer);
-    if (answer == correctAnswer) {
-      setscore((prev) => prev + 1);
-      console.log('Right');
-    } else {
-      setscore((prev) => prev - 1);
-    }
+  const submitAnswer = (answer, ques) => {
+    console.log('insca', answer, ques);
+    setanswersheet({ ...answersheet, [ques]: answer });
+    console.log(answersheet);
+    // if (answer == correctAnswer) {
+    //   setscore((prev) => prev + 1);
+    //   console.log('Right');
+    // } else {
+    //   setscore((prev) => prev - 1);
+    // }
   };
 
   let params = useParams();
@@ -77,13 +88,13 @@ function Test() {
           <Question question={Object.keys(qa)[0]} />
         </div>
         <div>
-          {Object.values(qa)[0]}
           <Answer
             optiona={Object.values(qa)[0][0]}
             optionb={Object.values(qa)[0][1]}
             optionc={Object.values(qa)[0][2]}
             optiond={Object.values(qa)[0][3]}
-            checkAnswer={checkAnswer}
+            submitAnswer={submitAnswer}
+            ques={Object.keys(qa)[0]}
             correctAnswer={Object.values(qa)[0][4]}
           />
         </div>

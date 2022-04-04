@@ -3,7 +3,7 @@ import React from 'react';
 function Answer(props){
   const answerhandler = (event) => {
     console.log(event.target.value);
-    props.checkAnswer(event.target.value,props.correctAnswer)
+    props.submitAnswer(event.target.value,props.ques)
   } 
   return (
     
