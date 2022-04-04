@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Question from '../Components/Question';
 import Answer from '../Components/Answer';
+import Score from '../Components/Score'
 
 const testQuestions = [
   {
@@ -39,7 +40,7 @@ function Test() {
     Q7: 'e',
   });
   const [score, setscore] = useState(0);
-  const [time, settime] = useState(1 * 60);
+  const [time, settime] = useState(1 * 2);
   const [showtimer, setshowtimer] = useState(true);
   useEffect(() => {
     const id = setInterval(() => {
@@ -47,14 +48,17 @@ function Test() {
       // console.log(time);
       if (time == 0) {
         //   console.log(time);
-        //   // clearInterval(id);
+        clearInterval(id);
         setshowtimer(false);
       }
     }, 1000);
+    // setTimeout(()=>{
+    //   setshowtimer(false)
+    // },5000)
     return () => {
       clearInterval(id);
     };
-  }, [time]);
+  }, []);
 
   const submitAnswer = (answer, ques) => {
     console.log('insca', answer, ques);
@@ -112,7 +116,7 @@ function Test() {
         </div>
       )}
       {showtimer && <div>{qalist}</div>}
-      {!showtimer && <div>Result : You Passed with {score} marks</div>}
+      {!showtimer && <div>Result : You Passed with <Score answersheet={answersheet} correctanswers={questionSet[0]}/></div>}
     </div>
   );
 }
