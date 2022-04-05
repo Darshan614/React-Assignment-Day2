@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Random from '../Components/Random';
 
 function Courses() {
   return (
@@ -11,6 +12,7 @@ function Courses() {
       <Link to="/Angular/test/987">
         <p>Angular</p>
       </Link>
+      <Random />
     </div>
   );
 }

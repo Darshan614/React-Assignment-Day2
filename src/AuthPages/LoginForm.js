@@ -2,8 +2,10 @@ import React, { Fragment, useState } from 'react';
 import FormInput from '../Components/ClassBased/FormInput';
 import classes from './LoginForm.module.css';
 import FormButton from '../Components/FunctionBased/FormButton';
+import { AuthContext } from '../App';
 
 function LoginForm(props) {
+  const { dispatch } = React.useContext(AuthContext);
   const [username, setusername] = useState();
   const [password, setpassword] = useState();
   const [level, setlevel] = useState();
@@ -50,7 +52,10 @@ function LoginForm(props) {
     //fetch request on firebase
     // console.log('class props',this.props);
     // this.props.onlogin(this.state.username,this.state.password);
-    props.onlogin(username, password);
+    dispatch({
+      type: 'LOGIN',
+      payload: { user:username, password },
+    });
   };
   // render() {
   return (

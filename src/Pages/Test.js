@@ -4,7 +4,7 @@ import Question from '../Components/Question';
 import Answer from '../Components/Answer';
 import Score from '../Components/Score';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../store/auth-context';
+import { AuthContext } from '../App';
 
 const testQuestions = [
   {
@@ -32,14 +32,20 @@ const testQuestions = [
 ];
 
 function Test() {
-  const navigate = useNavigate();
-  const ctx = useContext(AuthContext);
-  useEffect(() => {
-    console.log('context', ctx);
-    if (!ctx.isLoggedIn) {
-      navigate('/');
-    }
-  }, []);
+  const { dispatch } = React.useContext(AuthContext);
+
+  // const { state: authState } = React.useContext(AuthContext);
+  // const navigate = useNavigate();
+  // console.log(AuthContext)
+  // useEffect(() => {
+  //   console.log('context', state);
+  //   // if (!ctx.isLoggedIn) {
+  //   //   console.log('hello');
+  //   //   navigate('/');
+  //   // }
+  // }, []);
+
+  // const { state: authState } = React.useContext(AuthContext);
 
   const [answersheet, setanswersheet] = useState({
     Q1: 'e',
@@ -73,6 +79,10 @@ function Test() {
       }
     }, 1000);
   };
+
+  // useEffect(() => {
+  //   startTimer();
+  // }, []);
 
   const submitAnswer = (answer, ques) => {
     console.log('insca', answer, ques);

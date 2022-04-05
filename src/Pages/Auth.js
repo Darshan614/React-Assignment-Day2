@@ -12,13 +12,11 @@ function Auth(props) {
       return !state;
     });
   };
-  const location = useLocation();
-  console.log(location.state)
   
   return (
     <div>
-      {login && <LoginForm onlogin={props.loginhandler} />}
-      {!login && <SignUpForm onsignup={props.signuphandler} />}
+      {login && <LoginForm  />}
+      {!login && <SignUpForm  />}
       <FormButton
         onsubmit={formtoggler}
         description={login ? 'SignUp' : 'Login'}
