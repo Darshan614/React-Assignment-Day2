@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Question from '../Components/Question';
 import Answer from '../Components/Answer';
-import Score from '../Components/Score'
+import Score from '../Components/Score';
 
 const testQuestions = [
   {
@@ -42,22 +42,44 @@ function Test() {
   const [score, setscore] = useState(0);
   const [time, settime] = useState(1 * 2);
   const [showtimer, setshowtimer] = useState(true);
-  useEffect(() => {
-    const id = setInterval(() => {
-      settime((prev) => prev - 1);
-      // console.log(time);
-      if (time == 0) {
-        //   console.log(time);
-        clearInterval(id);
-        setshowtimer(false);
+  const [seconds, setseconds] = useState();
+  const [minutes, setminutes] = useState();
+  let interval;
+  const startTimer = () => {
+    const Timebegin = new Date(new Date().getTime()+1*60000);
+    interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = Timebegin - now;
+      console.log(distance)
+      const seconds = Math.floor(distance%(60*1000)/1000);
+      const minutes = Math.floor(distance%(60*60*1000)/(1000*60));
+      if (distance < 0) {
+        setshowtimer(false)
+        clearInterval(interval);
+      } else {
+        setminutes(minutes);
+        setseconds(seconds);
       }
-    }, 1000);
-    // setTimeout(()=>{
-    //   setshowtimer(false)
-    // },5000)
-    return () => {
-      clearInterval(id);
-    };
+    },1000);
+  };
+
+  useEffect(() => {
+    // const id = setInterval(() => {
+    //   settime((prev) => prev - 1);
+    //   // console.log(time);
+    //   if (time == 0) {
+    //     //   console.log(time);
+    //     clearInterval(id);
+    //     setshowtimer(false);
+    //   }
+    // }, 1000);
+    // // setTimeout(()=>{
+    // //   setshowtimer(false)
+    // // },5000)
+    // return () => {
+    //   clearInterval(id);
+    // };
+    startTimer();
   }, []);
 
   const submitAnswer = (answer, ques) => {
@@ -112,11 +134,17 @@ function Test() {
       <div>TestID:{id}</div>
       {showtimer && (
         <div>
-          Minutes:{Math.floor(time / 60)} Seconds:{time % 60}
+          Minutes:{Math.floor(time / 60)} Seconds:{time % 60} {' '}
+          {seconds}{' '}{minutes}
         </div>
       )}
       {showtimer && <div>{qalist}</div>}
-      {!showtimer && <div>Result : You Passed with <Score answersheet={answersheet} correctanswers={questionSet[0]}/></div>}
+      {!showtimer && (
+        <div>
+          Result : You Passed with{' '}
+          <Score answersheet={answersheet} correctanswers={questionSet[0]} />
+        </div>
+      )}
     </div>
   );
 }
