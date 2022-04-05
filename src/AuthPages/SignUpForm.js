@@ -3,7 +3,7 @@ import FormInput from '../Components/FunctionBased/FormInput';
 import FormButton from '../Components/FunctionBased/FormButton';
 import classes from './SignUpForm.module.css';
 
-function SignUpForm() {
+function SignUpForm(props) {
   const [email, setemail] = useState();
   const [password, setpassword] = useState();
   const [userdetail, setuserdetail] = useState();
@@ -20,6 +20,7 @@ function SignUpForm() {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     console.log(email, password, userdetail);
+    props.onsignup(email,password)
   };
 
   return (

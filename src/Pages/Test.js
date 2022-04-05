@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Question from '../Components/Question';
 import Answer from '../Components/Answer';
 import Score from '../Components/Score';
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../store/auth-context';
 
 const testQuestions = [
   {
@@ -30,6 +32,15 @@ const testQuestions = [
 ];
 
 function Test() {
+  const navigate = useNavigate();
+  const ctx = useContext(AuthContext);
+  useEffect(() => {
+    console.log('context', ctx);
+    if (!ctx.isLoggedIn) {
+      navigate('/');
+    }
+  }, []);
+
   const [answersheet, setanswersheet] = useState({
     Q1: 'e',
     Q2: 'e',
@@ -46,52 +57,27 @@ function Test() {
   const [minutes, setminutes] = useState();
   let interval;
   const startTimer = () => {
-    const Timebegin = new Date(new Date().getTime()+1*60000);
+    const Timebegin = new Date(new Date().getTime() + 1 * 60000);
     interval = setInterval(() => {
       const now = new Date().getTime();
       const distance = Timebegin - now;
-      console.log(distance)
-      const seconds = Math.floor(distance%(60*1000)/1000);
-      const minutes = Math.floor(distance%(60*60*1000)/(1000*60));
+      console.log(distance);
+      const seconds = Math.floor((distance % (60 * 1000)) / 1000);
+      const minutes = Math.floor((distance % (60 * 60 * 1000)) / (1000 * 60));
       if (distance < 0) {
-        setshowtimer(false)
+        setshowtimer(false);
         clearInterval(interval);
       } else {
         setminutes(minutes);
         setseconds(seconds);
       }
-    },1000);
+    }, 1000);
   };
-
-  useEffect(() => {
-    // const id = setInterval(() => {
-    //   settime((prev) => prev - 1);
-    //   // console.log(time);
-    //   if (time == 0) {
-    //     //   console.log(time);
-    //     clearInterval(id);
-    //     setshowtimer(false);
-    //   }
-    // }, 1000);
-    // // setTimeout(()=>{
-    // //   setshowtimer(false)
-    // // },5000)
-    // return () => {
-    //   clearInterval(id);
-    // };
-    startTimer();
-  }, []);
 
   const submitAnswer = (answer, ques) => {
     console.log('insca', answer, ques);
     setanswersheet({ ...answersheet, [ques]: answer });
     console.log(answersheet);
-    // if (answer == correctAnswer) {
-    //   setscore((prev) => prev + 1);
-    //   console.log('Right');
-    // } else {
-    //   setscore((prev) => prev - 1);
-    // }
   };
 
   let params = useParams();
@@ -134,8 +120,7 @@ function Test() {
       <div>TestID:{id}</div>
       {showtimer && (
         <div>
-          Minutes:{Math.floor(time / 60)} Seconds:{time % 60} {' '}
-          {seconds}{' '}{minutes}
+          Minutes:{minutes} Seconds:{seconds}
         </div>
       )}
       {showtimer && <div>{qalist}</div>}
