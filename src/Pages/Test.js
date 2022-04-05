@@ -5,6 +5,7 @@ import Answer from '../Components/Answer';
 import Score from '../Components/Score';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
+import { useSelector, useDispatch } from 'react-redux';
 
 const testQuestions = [
   {
@@ -32,7 +33,16 @@ const testQuestions = [
 ];
 
 function Test() {
-  const { dispatch } = React.useContext(AuthContext);
+  // const { dispatch } = React.useContext(AuthContext);
+  let params = useParams();
+
+  const dispatch = useDispatch();
+  const arr = useSelector((state) => state.arr);
+
+  const questionhandler = () => {
+    dispatch({ type: params.coursetitle });
+  };
+  console.log(arr);
 
   // const { state: authState } = React.useContext(AuthContext);
   // const navigate = useNavigate();
@@ -78,11 +88,13 @@ function Test() {
         setseconds(seconds);
       }
     }, 1000);
+    questionhandler();
   };
 
-  // useEffect(() => {
-  //   startTimer();
-  // }, []);
+  useEffect(() => {
+    // startTimer();
+    questionhandler();
+  }, []);
 
   const submitAnswer = (answer, ques) => {
     console.log('insca', answer, ques);
@@ -90,7 +102,6 @@ function Test() {
     console.log(answersheet);
   };
 
-  let params = useParams();
   let course = params.coursetitle;
   let id = params.id;
   let questionSet = testQuestions.filter((courseSet) => {
@@ -100,10 +111,7 @@ function Test() {
     }
   });
 
-  // questionSet = Object.values(questionSet[0])[0];
-  // console.log(questionSet[0]);
-  // console.log(Object.values(questionSet[0])[0]);
-  const qalist = Object.values(questionSet[0])[0].map((qa) => {
+  const qalist = arr.map((qa) => {
     return (
       <div key={Object.keys(qa)[0]}>
         <div>
